@@ -5,6 +5,7 @@ import userRoutes from "./routes/user.js";
 import courseRoutes from "./routes/course.js";
 import adminRoutes from "./routes/admin.js";
 import razorpay from "razorpay";
+import cors from "cors";
 dotenv.config();
 export const instance = new razorpay({
   key_id: process.env.Razorpay_Key,
@@ -14,6 +15,7 @@ const app = express();
 
 //using middlewares
 app.use(express.json());
+app.use(cors());
 const port = process.env.PORT;
 app.get("/", (req, res) => {
   res.send("server is working");
