@@ -16,7 +16,7 @@ export const register = TryCatch(async (req, res) => {
     password: hashPassword,
   };
   const otp = Math.floor(Math.random() * 100000);
-  const token = jwt.sign(
+  const activationToken = jwt.sign(
     {
       user,
       otp,
@@ -31,7 +31,7 @@ export const register = TryCatch(async (req, res) => {
     otp,
   };
   await sendMail(email, "E Learning", data);
-  res.status(200).json({ message: "Otp send to your mail", token });
+  res.status(200).json({ message: "Otp send to your mail", activationToken });
 });
 export const verifyUser = TryCatch(async (req, res) => {
   const { otp, token } = req.body;
