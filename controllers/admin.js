@@ -21,7 +21,9 @@ export const createCourse = TryCatch(async (req, res) => {
 });
 
 export const addLectures = TryCatch(async (req, res) => {
-  const course = await Courses.findById(req.params);
+  console.log(req.params);
+  const course = await Courses.findById(req.params.id);
+  console.log("Course,", course);
   if (!course) {
     return res.status(404).json({ message: "No course with this Id" });
   }
@@ -30,7 +32,7 @@ export const addLectures = TryCatch(async (req, res) => {
   const lecture = await Lecture.create({
     title,
     description,
-    vedio: file?.path,
+    video: file?.path,
     course: course._id,
   });
 
@@ -39,8 +41,8 @@ export const addLectures = TryCatch(async (req, res) => {
 export const deleteLectures = TryCatch(async (req, res) => {
   const lecture = await Lecture.findById(req.params.id);
 
-  rm(lecture.vedio, () => {
-    console.log("Vedio deleted");
+  rm(lecture.video, () => {
+    console.log("video deleted");
   });
   await lecture.deleteOne();
   res.json({ message: "Lecture deleted" });
@@ -52,8 +54,8 @@ export const deleteCourse = TryCatch(async (req, res) => {
   const lectures = await Lecture.find({ cousre: course._id });
   await Promise.all(
     lectures.map(async (lecture) => {
-      await unlikeAsync(lecture.vedio);
-      console.log("Vedio deleted");
+      await unlikeAsync(lecture.video);
+      console.log("video deleted");
     })
   );
 

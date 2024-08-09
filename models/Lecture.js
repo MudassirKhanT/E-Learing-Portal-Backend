@@ -9,7 +9,7 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
-  vedio: {
+  video: {
     type: String,
     required: true,
   },
