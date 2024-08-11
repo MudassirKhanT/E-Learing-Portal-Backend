@@ -38,7 +38,7 @@ export const addLectures = TryCatch(async (req, res) => {
 
   return res.status(200).json({ message: "Lecture added", lecture });
 });
-export const deleteLectures = TryCatch(async (req, res) => {
+export const deleteLecture = TryCatch(async (req, res) => {
   const lecture = await Lecture.findById(req.params.id);
 
   rm(lecture.video, () => {
@@ -51,7 +51,7 @@ export const deleteLectures = TryCatch(async (req, res) => {
 const unlikeAsync = promisify(fs.unlink);
 export const deleteCourse = TryCatch(async (req, res) => {
   const course = await Courses.findById(req.params.id);
-  const lectures = await Lecture.find({ cousre: course._id });
+  const lectures = await Lecture.find({ course: course._id });
   await Promise.all(
     lectures.map(async (lecture) => {
       await unlikeAsync(lecture.video);
